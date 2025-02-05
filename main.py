@@ -1,16 +1,21 @@
-# This is a sample Python script.
+import logging
+from telegram.ext import ApplicationBuilder, CommandHandler
+from config import BOT_TOKEN
+from handlers.start_handler import start
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    # Create a bot
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Messages
+    start_handler = CommandHandler('start', start)
+    application.add_handler(start_handler)
+
+    # Run
+    application.run_polling()
